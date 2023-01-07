@@ -1,0 +1,18 @@
+image{
+    margin: 10px 0;
+}
+
+.qoute{
+    font-size: 20px;
+	margin-bottom: 10px;
+	color: #52525b;
+}
+.qouteRed{
+    font-size: 20px;
+	margin-bottom: 10px;
+	color: red;
+}
+.source{
+    color: #802b4c;
+    font-weight:bold ;
+}
