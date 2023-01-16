@@ -1,0 +1,31 @@
+.poshta {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-start;
+    height: 80vh;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.cities{
+    width: 500px;
+    height: 25px;
+    margin: 5px;
+}
+.warehouses {
+    width: 508px;
+    height: 31px;
+    margin: 5px;
+}
+
+span{
+    font-size:medium;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 20px 0 10px 0;
+    width: 500px;
+    display: flex;
+    align-items:flex-start;
+    align-content: flex-start;
+}
