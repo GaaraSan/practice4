@@ -1,0 +1,12 @@
+a,
+.green {
+  text-decoration: none;
+  color: rgb(189, 0, 0);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(0, 86%, 36%, 0.2);
+  }
+}
