@@ -1,0 +1,81 @@
+section{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: flex-start;
+    height: 80vh;
+    overflow: auto;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+}
+.city{
+    max-width: 720px;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-start;
+    flex-direction: row;
+    margin-bottom: 50px;
+}
+td{
+    width: 150px;
+}
+.addCity, .selectCity{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content:flex-start;
+    align-items: flex-start;
+    align-content: center;
+    flex-direction: column;
+}
+.addLabel, .addInput, .addButton, .selectLabel, .selectSelect, .selectButton{
+    margin: 3px 0;
+}
+.addInput, .selectSelect{
+    padding: 3px 10px;
+    font-size: medium;
+}
+.addInput{
+    width: 230px;
+    height: 30px;
+}
+.selectSelect{
+    width: 254px;
+    height: 40px;
+}
+
+.addButton, .selectButton{
+	background-color:#007dc1;
+	border-radius:3px;
+	border:1px solid #124d77;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	font-size:16px;
+	padding:6px 19px;
+	text-decoration:none;
+}
+.addButton:hover, .selectButton:hover {
+	background-color:#0061a7;
+}
+.addButton:active , .selectButton:active {
+	position:relative;
+	top:1px;
+}
+
+     
+.humidity{
+    margin: 5px 15px;
+    width: 35px;
+    height: 35px;
+}
+.temp{
+    margin: 5px 10px;
+    width: 35px;
+    height: 35px;
+}
