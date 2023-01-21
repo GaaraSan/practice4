@@ -19,7 +19,7 @@ section{
     align-items: center;
     align-content: flex-start;
     flex-direction: row;
-    margin-bottom: 50px;
+    margin-bottom: 100px;
 }
 td{
     width: 150px;
@@ -78,4 +78,41 @@ td{
     margin: 5px 10px;
     width: 35px;
     height: 35px;
+}
+
+
+.dropDown{
+    position:absolute;
+    top: 195px;
+    border: 1px solid black;
+
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content:flex-start;
+    align-items: center;
+    align-content: flex-start;
+    flex-direction: column;
+}
+.clickList{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-start;
+    flex-direction: row;
+    width: 254px;
+    height: 40px;
+    padding: 3px 10px;
+    font-size: medium;
+
+    border: none;
+    font: inherit;
+    color: inherit;
+    background-color: white;
+    cursor: pointer;
+}
+
+.clickList:hover{
+    background-color: #007dc1;
+    color: white;
 }

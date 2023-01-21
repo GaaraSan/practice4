@@ -7,19 +7,26 @@ const cityWeather = ref(null) //для вывода погоды
 const addCity = ref('Київ') // для добавления города
 const arrCity = reactive({name:[]}) // массив добавленых городов
 const selectedCity = ref('') // вибраный город для поиска погоды
+const dropDownArr = ref({}) // массив городов для выпадающего списка
 let userLocation = {} // координаты юзера
+let dropDown = false
 
 const getCityWeather = function() {
 	axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${selectedCity.value}&appid=${API_KEY}&units=metric`)
 	.then(data => {
     cityWeather.value = data.data; 
-    console.log(cityWeather.value)
   })
 }
 
 const getCoordsWeather = function(){
   axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${userLocation.latitude}&lon=${userLocation.longitude}&appid=${API_KEY}&units=metric`)
   .then(data => cityWeather.value = data.data)
+}
+
+const getCityName = function(){
+  const limit = 5
+  axios.get(`http://api.openweathermap.org/geo/1.0/direct?q=${addCity.value}&limit=${limit}&appid=${API_KEY}`)
+  .then(data => dropDownArr.value = data.data)
 }
 
 async function showPosition(position) {
@@ -30,7 +37,13 @@ async function showPosition(position) {
 const addUserCity = function(city){
   arrCity.name.push(city)
   localStorage.setItem ('cityName', JSON.stringify(arrCity.name))
-  console.log(localStorage)
+}
+
+const showDropDown = function(city){
+  selectedCity.value = `${city.name},${city.country}`
+  addCity.value = `${city.name},${city.country}`
+  dropDown = false
+  getCityWeather()
 }
 
 onMounted(()=>{
@@ -40,8 +53,18 @@ onMounted(()=>{
     alert("err");
   }
   arrCity.name = JSON.parse(localStorage.getItem('cityName'))
-  console.log(arrCity.name)
 })
+
+
+
+let typingTimer;               
+let doneTypingInterval = 500;  
+
+const timerFunc = function(){
+  dropDown = true
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(getCityName, doneTypingInterval);
+}
 
 </script>
 
@@ -53,7 +76,19 @@ onMounted(()=>{
         @submit.prevent="addUserCity(addCity)"
       >
         <label class="addLabel">Введіть місто:</label>
-        <input class="addInput" v-model="addCity" type="text" />
+        <input class="addInput" v-model="addCity" type="text" id="myInput" @keyup="timerFunc"/>
+
+        <div class="dropDown" v-if="dropDown">
+          <button class="clickList" v-for="city in dropDownArr" @click="showDropDown(city)">
+            <div>
+              {{ city.name }}
+            </div>
+            <div>
+              {{ city.country}}
+            </div>
+          </button>
+        </div>
+
         <button class="addButton">Додати</button>
       </form>
 
@@ -104,6 +139,7 @@ onMounted(()=>{
       </table>
     </div>
   </section>
+  <button @click="getCityName">test</button>
 </template>
 
 <style src="../assets/style.css" lang="css"></style>
