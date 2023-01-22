@@ -26,12 +26,13 @@ module.exports = {
                             options: {
                                 modules: true
                             }
-                        }
+                        },
+                        'postcss-loader'
                     ]
                 },
                 // this matches plain `<style>` or `<style scoped>`
                 {
-                    use: ['vue-style-loader', 'css-loader']
+                    use: ['vue-style-loader', 'css-loader', 'postcss-loader']
                 }
             ]
         }

@@ -8,8 +8,10 @@ const addCity = ref('Київ') // для добавления города
 const arrCity = reactive({name:[]}) // массив добавленых городов
 const selectedCity = ref('') // вибраный город для поиска погоды
 const dropDownArr = ref({}) // массив городов для выпадающего списка
+const theme = ref('white') // тема юзера
 let userLocation = {} // координаты юзера
 let dropDown = false
+let div = document.getElementById('setTheme')
 
 const getCityWeather = function() {
 	axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${selectedCity.value}&appid=${API_KEY}&units=metric`)
@@ -53,9 +55,10 @@ onMounted(()=>{
     alert("err");
   }
   arrCity.name = JSON.parse(localStorage.getItem('cityName'))
+  theme.value = localStorage.getItem('theme')
+  
+  loadTheme(theme.value)
 })
-
-
 
 let typingTimer;               
 let doneTypingInterval = 500;  
@@ -66,17 +69,63 @@ const timerFunc = function(){
   typingTimer = setTimeout(getCityName, doneTypingInterval);
 }
 
+let switchStyle1 = ref("bg-slate-500 ring-slate-900/5")
+let switchStyle2 = ref("")
+
+const switchStyle = function(){
+  if(theme.value === "white"){
+    switchStyle1.value = "bg-indigo-600 ring-black/20"
+    switchStyle2.value = "translate-x-4"
+    setThemeBlack()
+  } else if(theme.value === "black"){
+    switchStyle1.value = "bg-slate-500 ring-slate-900/5"
+    switchStyle2.value = ""
+    setThemeWhite()
+  } else{
+    console.log("error theme")
+  }
+}
+
+const setThemeBlack = function(){
+  theme.value = "black"
+  localStorage.setItem("theme","black")
+  document.documentElement.classList.add("dark")
+  div.classList.add("dark")
+}
+
+const setThemeWhite = function(){
+  theme.value = "white"
+  localStorage.setItem("theme","white")
+  document.documentElement.classList.remove("dark")
+  div.classList.remove("dark")
+}
+
+const loadTheme = function(theme){
+  if(theme === "black"){
+    switchStyle1.value = "bg-indigo-600 ring-black/20"
+    switchStyle2.value = "translate-x-4"
+
+    document.documentElement.classList.add("dark")
+  } else if(theme === "white"){
+    switchStyle1.value = "bg-slate-500 ring-slate-900/5"
+    switchStyle2.value = ""
+  } else{
+    console.log("error theme")
+  }
+}
+
+
 </script>
 
 <template>
   <section>
-    <div class="city">
+    <div class="city" id="setTheme">
       <form
         class="addCity"
         @submit.prevent="addUserCity(addCity)"
       >
-        <label class="addLabel">Введіть місто:</label>
-        <input class="addInput" v-model="addCity" type="text" id="myInput" @keyup="timerFunc"/>
+        <label class="addLabel dark:text-white">Введіть місто:</label>
+        <input class="addInput dark:bg-gray-500" v-model="addCity" type="text" id="myInput" @keyup="timerFunc"/>
 
         <div class="dropDown" v-if="dropDown">
           <button class="clickList" v-for="city in dropDownArr" @click="showDropDown(city)">
@@ -92,10 +141,13 @@ const timerFunc = function(){
         <button class="addButton">Додати</button>
       </form>
 
-      
+      <div @click="switchStyle" :class="'pointer-events-auto h-6 w-10 rounded-full p-1 ring-1 ring-inset transition duration-200 ease-in-out '+switchStyle1">
+        <div :class="'h-4 w-4 rounded-full bg-white shadow-sm ring-1 ring-slate-700/10 transition duration-200 ease-in-out '+switchStyle2"></div>
+      </div>
+
       <div class="selectCity">
-        <label class="selectLabel">Оберіть місто: </label>
-        <select class="selectSelect" v-model="selectedCity">
+        <label class="selectLabel dark:text-white">Оберіть місто: </label>
+        <select class="selectSelect dark:bg-gray-500" v-model="selectedCity">
           <option v-for="city in arrCity.name">
             {{ city }}
           </option>
@@ -104,7 +156,7 @@ const timerFunc = function(){
       </div>
     </div>
 
-    <div class="" v-if="cityWeather!==null">
+    <div class="dark:bg-gray-500 p-5 rounded-xl" v-if="cityWeather!==null">
       <table>
         <tr>
           <td>{{ cityWeather.name }}</td>
@@ -112,12 +164,12 @@ const timerFunc = function(){
           <td>{{ "["+cityWeather.coord.lon+";"+cityWeather.coord.lat+"]" }}</td>
         </tr>
         <tr>
-          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIHfkdUcQrBCcMhtrzisFCZIKR0JDMCaF98g&usqp=CAU" class="humidity"></td>
+          <td><img src="https://cdn-icons-png.flaticon.com/512/5243/5243174.png" class="humidity"></td>
           <td>humidity</td>
           <td>{{ cityWeather.main.humidity }}</td>
         </tr>
         <tr>
-          <td><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCRRWb-zS9dIDFjf43vXTgvH-_6I9YbzXGwQ&usqp=CAU" class="temp"></td>
+          <td><img src="https://e.unicode-table.com/orig/b9/e532c0c070b2bff5deb7ce6815c083.png" class="temp"></td>
           <td>temp</td>
           <td>{{ cityWeather.main.temp }}</td>
         </tr>
@@ -139,7 +191,6 @@ const timerFunc = function(){
       </table>
     </div>
   </section>
-  <button @click="getCityName">test</button>
 </template>
 
 <style src="../assets/style.css" lang="css"></style>
