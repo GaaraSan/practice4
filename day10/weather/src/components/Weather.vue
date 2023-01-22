@@ -11,7 +11,7 @@ const dropDownArr = ref({}) // массив городов для выпадаю
 const theme = ref('white') // тема юзера
 let userLocation = {} // координаты юзера
 let dropDown = false
-let div = document.getElementById('setTheme')
+
 
 const getCityWeather = function() {
 	axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${selectedCity.value}&appid=${API_KEY}&units=metric`)
@@ -90,14 +90,12 @@ const setThemeBlack = function(){
   theme.value = "black"
   localStorage.setItem("theme","black")
   document.documentElement.classList.add("dark")
-  div.classList.add("dark")
 }
 
 const setThemeWhite = function(){
   theme.value = "white"
   localStorage.setItem("theme","white")
   document.documentElement.classList.remove("dark")
-  div.classList.remove("dark")
 }
 
 const loadTheme = function(theme){
@@ -119,7 +117,7 @@ const loadTheme = function(theme){
 
 <template>
   <section>
-    <div class="city" id="setTheme">
+    <div class="city">
       <form
         class="addCity"
         @submit.prevent="addUserCity(addCity)"
