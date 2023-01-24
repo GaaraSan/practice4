@@ -1,8 +1,10 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
 import axios from 'axios'
 
 const getStudentsApi = reactive({ students: [] })
+const store = useStore()
 let showEdit = false
 
 const getStudents = () => {
@@ -11,8 +13,17 @@ const getStudents = () => {
 const getStudentsFromApi = () => {
 	getStudents().then(value=>{
 		getStudentsApi.students = value.data
+		setStoreStudentsCount(getStudentsApi.students.length)
 	})
 }
+
+const setStoreStudentsCount = function(count){
+	store.commit('setCount', count)
+}
+
+const countStudents = computed(() => {
+	return store.getters.getCount
+})
 
 onMounted(() => getStudentsFromApi())
 
@@ -63,6 +74,9 @@ function editStudent(id) {
 </script>
 
 <template>
+	<div class="studentCount">
+		<h1>Всього студентів: {{ countStudents }}</h1>
+	</div>
     <div :class="$style.task">
     <input
       type="text"
